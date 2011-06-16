@@ -24,8 +24,8 @@ a short period of time.
 
 For detection, each request to the server is marked with an identifier made from request properties (for example,
 from IP and request URL: "1.2.3.4/login.php"). When the number of hits with a certain ID reaches tolerance
-margin within a detection window, client IP is send as an argument to the external command (BAN_IP_COMMAND) or
-collected for batch blocking (see Blocking Lists).
+margin within a detection window, client IP is sent as an argument to the external command (BAN_IP_COMMAND) or
+collected for batch blocking (see "Blocking Lists").
 
 Log2ban is limited to operating on websever's access log in the realtime, and is not intended to be used as
 archived log analyser. A firewall system must be used to actually ban an attacker.
@@ -72,7 +72,6 @@ apachelog's algorythm based on regular expressions.
 # Contacts
 
 Developer: [unicodefreak@gmail.com](mailto:unicodefreak@gmail.com)
-
 
 """
 
