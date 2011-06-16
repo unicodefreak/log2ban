@@ -338,7 +338,7 @@ def print_all_banned_ips():
         # print to stdout
         print ip
 
-def dumb_ips_for_unban():
+def dump_ips_for_unban():
     """Print banned ips are older than UNBAN_DAYS
     """
     logger.info("Printing unbanning ips to stdout")
@@ -373,7 +373,7 @@ if __name__ == "__main__":
             elif arg == "allbanned":
                 print_all_banned_ips()
             elif arg == "unbanned":
-                dumb_ips_for_unban()
+                dump_ips_for_unban()
         elif command == "unban":
             unban_ip(arg)
         else:
