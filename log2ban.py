@@ -1,4 +1,4 @@
-# Copyright 2009-2010 Ilya Brodotsky
+# Copyright 2011 Ilya Brodotsky
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -79,6 +79,8 @@ Developer: [unicodefreak@gmail.com](mailto:unicodefreak@gmail.com)
 __version__ = "1.0"
 __license__ = """http://www.apache.org/licenses/LICENSE-2.0"""
 __author__ = "Ilya Brodotsky <unicodefreak@gmail.com>"
+__contributors__ = [
+]
 
 from datetime import datetime, timedelta
 import subprocess
