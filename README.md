@@ -5,6 +5,19 @@ This program allows detection and banning of IPs participating in DDOS or brutef
 Such kind of attack is characterized by a high number of similar requests from a relatively small subset of IPs in
 a short period of time.
 
+#Installing
+
+Base installation (no database)
+
+1. > sudo pip install apachelog pexpect
+2. Set MONGODB_HOST to 'None' in log2ban.py
+
+Installation with database
+
+1. > sudo pip install apachelog pexpect pymongo
+2. Follow instructions http://www.mongodb.org/display/DOCS/Quickstart
+3. If DB is installed on the remote host, or non-default port is used, modify MONGODB_* settings in log2ban.py
+
 #How log2ban works
 
 For detection, each request to the server is marked with an identifier made from request properties (for example,
