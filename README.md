@@ -1,4 +1,4 @@
-    #About
+#About
 
     This program allows detection and banning of IPs participating in DDOS or bruteforce attack to the webserver.
 
