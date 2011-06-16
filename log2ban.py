@@ -22,7 +22,7 @@ a short period of time.
 
 #Installing
 
-0. Ensure you have Python 2.6+
+Ensure you have Python 2.6+
 
 Base installation (no database)
 
