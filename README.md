@@ -109,7 +109,8 @@ margin within a detection window, client IP is sent as an argument to the extern
 collected for batch blocking (see "Blocking Lists").
 
 Log2ban is limited to operating on websever's access log in the realtime, and is not intended to be used as
-archived log analyser. A firewall system must be used to actually ban an attacker.
+archived log analyser. A firewall system must be used to actually ban an attacker (iptables + ipset, in the example
+above).
 
 The script reads access log in the realtime, using 'tail -n 1 -f' or similar command, as specified in the
 configuration. If command sends EOF, log2ban will terminate. If command will stop writing log records to the
