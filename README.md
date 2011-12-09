@@ -134,6 +134,7 @@ Add this line to root cron script to update ban lists, e.g. every 5 minutes:
     */5 * * * * /opt/log2ban/ipset_control.sh update
 
 Let it run for a while. Check if any IPs are blocked:
+
 > sudo /opt/log2ban/ipset_control.sh
 
 Now, final thing - connect it all to iptables. Add the following line
