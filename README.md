@@ -11,28 +11,34 @@ How to install log2ban (process described for Debian Squeeze 6.0, for other dist
 
 Install ipset:
 
-> $ sudo apt-get install module-assistant xtables-addons-source
-> $ sudo module-assistant prepare
-> $ sudo module-assistant auto-install xtables-addons-source
-> $ depmod -a
+> sudo apt-get install module-assistant xtables-addons-source
+
+> sudo module-assistant prepare
+
+> sudo module-assistant auto-install xtables-addons-source
+
+> depmod -a
 
 Test that it works
-> $ ipset -L
-> $
+
+> ipset -L
+
+>
+
 (If you get error messages, like 'Module ip_set not found', then ipset is not installed. Refer to distribution-specific
 solutions. Basically the idea is to build ip_set kernel module and load it.).
 
 Install MongoDB, Python and PIP:
 
-> $ sudo apt-get install mongodb python-pip
+> sudo apt-get install mongodb python-pip
 
 Install python dependencies:
 
-> $ sudo pip install apachelog pexpect pymongo
+> sudo pip install apachelog pexpect pymongo
 
 Clone log2ban somewhere
 
-> $ git clone git://github.com/jacum/log2ban.git
+> git clone git://github.com/jacum/log2ban.git
 
 In log2ban.py, adjust the following parameters:
 
@@ -59,29 +65,41 @@ The following is /etc/logrotate.d/nginx, adjust as necessary
 
 Install scripts
 
-> $ sudo mkdir /opt/log2ban
-> $ sudo cp log2ban/log2ban.py /opt/log2ban/
-> $ sudo cp log2ban/ipset-control.sh /opt/log2ban/
-> $ sudo cp log2ban/init-scripts/log2ban-debian.sh /etc/init.d/log2ban
-> $ sudo chmod +x /etc/init.d/log2ban
-> $ sudo chmod +x /opt/log2ban/ipset-control.sh
+> sudo mkdir /opt/log2ban
+
+> sudo cp log2ban/log2ban.py /opt/log2ban/
+
+> sudo cp log2ban/ipset-control.sh /opt/log2ban/
+
+> sudo cp log2ban/init-scripts/log2ban-debian.sh /etc/init.d/log2ban
+
+> sudo chmod +x /etc/init.d/log2ban
+
+> sudo chmod +x /opt/log2ban/ipset-control.sh
+
 
 Start MongoDB
-> $ sudo /etc/init.d/mongodb start
+> sudo /etc/init.d/mongodb start
 
 Start log2ban
-> $ sudo /etc/init.d/log2ban start
+> sudo /etc/init.d/log2ban start
 
 Add this line to root cron script to update ban lists, e.g. every 5 minutes:
     */5 * * * * /opt/log2ban/ipset_control.sh update
 
 Let it run for a while. Check if any IPs are blocked:
-> $ sudo /opt/log2ban/ipset_control.sh
+> sudo /opt/log2ban/ipset_control.sh
 
-Now, final thing - connect it all to iptables:
-> $ sudo iptables -A INPUT -m set --match-set autoban src -j DROP
+Now, final thing - connect it all to iptables. Add the following line
 
+> -A INPUT -m set --match-set autoban src -j DROP
 
+to /etc/firewall.conf.
+
+Apply changes:
+> sudo /etc/init.d/networking restart
+
+That's about it, enjoy.
 
 #How log2ban works
 
