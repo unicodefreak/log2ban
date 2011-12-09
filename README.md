@@ -79,9 +79,11 @@ Install scripts
 
 
 Start MongoDB
+
 > sudo /etc/init.d/mongodb start
 
 Start log2ban
+
 > sudo /etc/init.d/log2ban start
 
 Add this line to root cron script to update ban lists, e.g. every 5 minutes:
