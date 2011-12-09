@@ -119,7 +119,11 @@ BAN_IP_COMMAND = "echo \"%s\" >> /tmp/banlist.txt" # %s is substituted with ip, 
 #
 # Shell command used for echoing log file records in the realtime, line by line. Executed once when log2ban starts
 #
-ECHO_LOG_COMMAND = "python sleepdump.py" # shell command 
+
+# NOTE:
+# !! Don't forget to add restart of log2ban.py on log rotation !!
+#
+ECHO_LOG_COMMAND = "tail -f /var/log/nginx/access.log" # shell command
 
 #
 # Length of a single slot used to catch server hits, in milliseconds
@@ -132,7 +136,7 @@ SLOT_INTERVAL = 1000 # millis
 WINDOW_SIZE = 60 # slots
 
 #
-# How many server hits needed to ban the ip
+# How many server hits needed to ban the
 #
 TOLERANCE_MARGIN = 100 # hits in the window
 
@@ -151,7 +155,19 @@ MONGODB_DB = 'log2ban'
 #
 # Unban ip after the specified number of days
 #
-DAYS_UNBAN = 7
+DAYS_UNBAN = 3
+
+#
+# Internal logging setup
+#
+INTERNAL_LOG_PATTERN = '%(asctime)s %(filename)s/%(funcName)s: %(message)s'
+INTERNAL_LOG_FILE = "/var/log/log2ban.log" # None to turn off logging to file
+
+
+## DO NOT CHANGE ANYTHING BELOW THIS LINE
+## unless you indeed know what you are doing
+############################################################################################################
+
 
 #
 # Database collection which is holding currently banned ips
@@ -167,11 +183,6 @@ if MONGODB_HOST: # if db is enabled
 
     banned_ip_collection = Connection(MONGODB_HOST, MONGODB_PORT)[MONGODB_DB].banned
 
-#
-# Internal logging setup
-#
-INTERNAL_LOG_PATTERN = '%(asctime)s %(filename)s/%(funcName)s: %(message)s' 
-INTERNAL_LOG_FILE = "/var/log/log2ban.log" # None to turn off logging to file
 
 logging.basicConfig(format=INTERNAL_LOG_PATTERN, level=logging.DEBUG)
 logger = logging.getLogger()
