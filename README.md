@@ -7,18 +7,81 @@ a short period of time.
 
 #Installing
 
-Ensure you have Python 2.6+. 
+How to install log2ban (process described for Debian Squeeze 6.0, for other distributions it may vary)
 
-Base installation (no database)
+Install ipset:
 
-1. > sudo pip install apachelog pexpect
-2. Set MONGODB_HOST to 'None' in log2ban.py
+> $ sudo apt-get install module-assistant xtables-addons-source
+> $ sudo module-assistant prepare
+> $ sudo module-assistant auto-install xtables-addons-source
+> $ depmod -a
 
-Installation with database
+Test that it works
+> $ ipset -L
+> $
+(If you get error messages, like 'Module ip_set not found', then ipset is not installed. Refer to distribution-specific
+solutions. Basically the idea is to build ip_set kernel module and load it.).
 
-1. > sudo pip install apachelog pexpect pymongo
-2. Follow instructions http://www.mongodb.org/display/DOCS/Quickstart
-3. If DB is installed on the remote host, or non-default port is used, modify MONGODB_* settings in log2ban.py
+Install MongoDB, Python and PIP:
+
+> $ sudo apt-get install mongodb python-pip
+
+Install python dependencies:
+
+> $ sudo pip install apachelog pexpect pymongo
+
+Clone log2ban somewhere
+
+> $ git clone git://github.com/jacum/log2ban.git
+
+In log2ban.py, adjust the following parameters:
+
+ECHO_LOG_COMMAND = "tail -f /var/log/nginx/access.log"
+This can be any command that feeds log file (preferably, in real time) to log2ban.
+If using 'tail', don't forget to restart log2ban every time logs are rotated. Otherwise 'tail' feed stops.
+
+The following is /etc/logrotate.d/nginx, adjust as necessary
+
+    /var/log/nginx/*log {
+        daily
+        rotate 10
+        missingok
+        notifempty
+        compress
+        sharedscripts
+        postrotate
+            [ ! -f /var/run/nginx.pid ] || kill -USR1 `cat /var/run/nginx.pid`
+            /etc/init.d/log2ban stop
+            /etc/init.d/log2ban start
+        endscript
+    }
+
+
+Install scripts
+
+> $ sudo mkdir /opt/log2ban
+> $ sudo cp log2ban/log2ban.py /opt/log2ban/
+> $ sudo cp log2ban/ipset-control.sh /opt/log2ban/
+> $ sudo cp log2ban/init-scripts/log2ban-debian.sh /etc/init.d/log2ban
+> $ sudo chmod +x /etc/init.d/log2ban
+> $ sudo chmod +x /opt/log2ban/ipset-control.sh
+
+Start MongoDB
+> $ sudo /etc/init.d/mongodb start
+
+Start log2ban
+> $ sudo /etc/init.d/log2ban start
+
+Add this line to root cron script to update ban lists, e.g. every 5 minutes:
+    */5 * * * * /opt/log2ban/ipset_control.sh update
+
+Let it run for a while. Check if any IPs are blocked:
+> $ sudo /opt/log2ban/ipset_control.sh
+
+Now, final thing - connect it all to iptables:
+> $ sudo iptables -A INPUT -m set --match-set autoban src -j DROP
+
+
 
 #How log2ban works
 

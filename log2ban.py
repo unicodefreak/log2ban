@@ -114,7 +114,7 @@ except ImportError, e:
 # If database is enabled, the command will be executed only for new (not currently banned) ips.
 # Otherwise, the command may be called repeatedly for the same ip
 #
-BAN_IP_COMMAND = "echo \"%s\" >> /tmp/banlist.txt" # %s is substituted with ip, None for no command 
+BAN_IP_COMMAND = None # "echo \"%s\" >> /tmp/banlist.txt" # %s is substituted with ip, None for no command
 
 #
 # Shell command used for echoing log file records in the realtime, line by line. Executed once when log2ban starts
