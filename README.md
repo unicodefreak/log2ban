@@ -157,4 +157,6 @@ apachelog's algorythm based on regular expressions.
 
 # Contacts
 
-Developer: [unicodefreak@gmail.com](mailto:unicodefreak@gmail.com)
+Developers: 
+[unicodefreak@gmail.com](mailto:unicodefreak@gmail.com)
+[info@jacum.com](mailto:info@jacum.com)
